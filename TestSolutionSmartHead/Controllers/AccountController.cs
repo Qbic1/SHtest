@@ -24,10 +24,10 @@ namespace TestSolutionSmartHead.Controllers
         {
             if (ModelState.IsValid)
             {
-                
-                User appUser = db.Users.FirstOrDefault(u=>u.Name == model.Name);
-                
-                if (appUser==null || !appUser.CheckPassword(model.Password))
+
+                User appUser = db.Users.FirstOrDefault(u => u.Name == model.Name);
+
+                if (appUser == null || !appUser.CheckPassword(model.Password))
                 {
                     ModelState.AddModelError("", "Неверный логин или пароль");
                 }
@@ -48,21 +48,22 @@ namespace TestSolutionSmartHead.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 User user = db.Users.FirstOrDefault(u => u.Name == model.Name);
 
-                if(user!=null)
+                if (user != null)
                     ModelState.AddModelError("", "Пользователь уже зарегистрирован");
                 else
                 {
                     user = new User(model.Name, model.Password);
                     user.Role = UserType.Admin;
+                    user.Votes = 10;
                     db.Users.Add(user);
                     db.SaveChanges();
                     FormsAuthentication.SetAuthCookie(model.Name, true);
                     return RedirectToAction("Index", "Home");
-                }                            
+                }
             }
             return View(model);
         }

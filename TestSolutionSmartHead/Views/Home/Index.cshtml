@@ -1,4 +1,5 @@
 ﻿@model List<TestSolutionSmartHead.Models.Idea>
+@using System.Text
 @{
     ViewBag.Title = "Ideas";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -16,9 +17,12 @@
         {
             <div id="@m.Id" class="idea" style="display:flex !important">
                 <p>User: @m.User.Name</p><p>Idea: @m.Text</p>
-                <p>Pos: @m.Positive</p><p>Neg: @m.Negative</p>
-                <button id="Positive-@m.Id" type="button" onclick="addVote(@m.Id,1)">Positive</button>
-                <button id="Negative-@m.Id" type="button" onclick="addVote(@m.Id,0)">Negative</button>
+                <p>Pos:</p><p id="Pos-@m.Id">@m.Positive</p><p>Neg:</p><p id="Neg-@m.Id">@m.Negative</p>
+                @if (!ViewBag.VoteList.Contains("/" + @m.Id + "/") && ViewBag.VoteCount > 0)
+                {
+                    <button id="Positive-@m.Id" type="button" onclick="addVote(@m.Id,1)">Positive</button>
+                    <button id="Negative-@m.Id" type="button" onclick="addVote(@m.Id,0)">Negative</button>
+                }
             </div>
         }
     }
@@ -27,31 +31,20 @@
 {
     <form class="form-inline" method="post" name="AddIdea">
         <input class="form-control" id="text" name="Text" type="text" placeholder="Напишите свою идею" />
-        <button type="submit" class="btn btn-success">Добавть</button>
+        <button type="submit" class="btn btn-success">Добавить</button>
     </form>
 }
 <script type="text/javascript" language="javascript">
     function addVote(id, vote) {
         $.ajax({
             type: 'POST',
-            url: '/Home/AddVote',
-            cache: false,
-            data: { 'id': id, 'isPos': vote },
-            dataType: 'json',
-            success: function (result) {
-                alert('s');
-                $("#Positive-" + id).hide();
-                $('#Negative-' + id).hide();
+            url: '/Home/AddVote?id=' + id + '&isPos=' + vote,
+            success: function (resp) {
+                document.location.href = "/Home/Index";
             },
-            error: function (result) {
-                alert('er' + result.status + result.responseText);
-                $("#Positive-" + id).hide();
-                $('#Negative-' + id).hide();
+            error: function (resp) {
+                document.location.href = "/Home/Index";
             }
         });
     }
 </script>
-success: function (resp) {
-                $("#Positive-" + id).html();
-                $('#Negative-' + id).html();
-            }

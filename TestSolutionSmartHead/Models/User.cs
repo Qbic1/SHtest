@@ -18,10 +18,18 @@ namespace TestSolutionSmartHead.Models
         public string Name { get; set; }
         public string Password { get; set; }
         public byte Votes { get; set; }
+        public DateTime? RefreshDate { get; set; }
         public UserType Role { get; set; }
         public virtual ICollection<Idea> Ideas { get; set; }
+        public bool IsActive { get; set; }
+        /// <summary>
+        /// Хранит id идей за который пользователь голосовал
+        /// </summary>
+        public string VotesList { get; set; }
         public User(string name, string password)
         {
+            this.RefreshDate = DateTime.Now;
+            this.IsActive = true;
             this.Name = name;
             this.Password = global::BCrypt.Net.BCrypt.HashPassword(password, global::BCrypt.Net.BCrypt.GenerateSalt());
             this.Votes = 10;

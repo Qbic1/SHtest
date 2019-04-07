@@ -170,6 +170,10 @@
     <Compile Include="Migrations\201904061651094_MyDB2.Designer.cs">
       <DependentUpon>201904061651094_MyDB2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201904072143327_MyDB3.cs" />
+    <Compile Include="Migrations\201904072143327_MyDB3.Designer.cs">
+      <DependentUpon>201904072143327_MyDB3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account\LoginModel.cs" />
     <Compile Include="Models\Account\RegisterModel.cs" />
@@ -250,6 +254,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904061651094_MyDB2.resx">
       <DependentUpon>201904061651094_MyDB2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904072143327_MyDB3.resx">
+      <DependentUpon>201904072143327_MyDB3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
