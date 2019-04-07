@@ -1,1 +1,0 @@
-﻿insert into [Users]([Name], [Password], 
