@@ -1,0 +1,57 @@
+﻿@model List<TestSolutionSmartHead.Models.Idea>
+@{
+    ViewBag.Title = "Ideas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<div>
+    <h4>Идеи</h4>
+    @if (!Model.Any())
+    {
+        <div style="display:flex !important"><p>No ideas now</p></div>
+    }
+    else
+    {
+        foreach (var m in Model)
+        {
+            <div id="@m.Id" class="idea" style="display:flex !important">
+                <p>User: @m.User.Name</p><p>Idea: @m.Text</p>
+                <p>Pos: @m.Positive</p><p>Neg: @m.Negative</p>
+                <button id="Positive-@m.Id" type="button" onclick="addVote(@m.Id,1)">Positive</button>
+                <button id="Negative-@m.Id" type="button" onclick="addVote(@m.Id,0)">Negative</button>
+            </div>
+        }
+    }
+</div>
+@if (!string.IsNullOrWhiteSpace(ViewBag.UserName))
+{
+    <form class="form-inline" method="post" name="AddIdea">
+        <input class="form-control" id="text" name="Text" type="text" placeholder="Напишите свою идею" />
+        <button type="submit" class="btn btn-success">Добавть</button>
+    </form>
+}
+<script type="text/javascript" language="javascript">
+    function addVote(id, vote) {
+        $.ajax({
+            type: 'POST',
+            url: '/Home/AddVote',
+            cache: false,
+            data: { 'id': id, 'isPos': vote },
+            dataType: 'json',
+            success: function (result) {
+                alert('s');
+                $("#Positive-" + id).hide();
+                $('#Negative-' + id).hide();
+            },
+            error: function (result) {
+                alert('er' + result.status + result.responseText);
+                $("#Positive-" + id).hide();
+                $('#Negative-' + id).hide();
+            }
+        });
+    }
+</script>
+success: function (resp) {
+                $("#Positive-" + id).html();
+                $('#Negative-' + id).html();
+            }
