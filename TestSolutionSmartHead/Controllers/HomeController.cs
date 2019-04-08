@@ -20,7 +20,7 @@ namespace TestSolutionSmartHead.Controllers
             {
                 user = db.Users.FirstOrDefault(u => u.Name == User.Identity.Name);
             }
-            int daysWithoutRefresh;
+            TimeSpan timeSpan;
             if (user != null)
             {
                 ViewBag.UserName = user.Name;
@@ -30,10 +30,9 @@ namespace TestSolutionSmartHead.Controllers
                 {
                     user.RefreshDate = DateTime.Now;
                 }
-                daysWithoutRefresh = DateTime.Now.Day - user.RefreshDate.Value.Day;
-                int i = daysWithoutRefresh / 3;
-                int votes = i + user.Votes;
-                user.Votes = votes > 10 ? (byte)10 : (byte)votes;
+                timeSpan = DateTime.Now - user.RefreshDate.Value;
+                int i = timeSpan.Days / 3;
+                user.Votes = (user.Votes + i) > 10 ? (byte)10 : (byte)(user.Votes + i);
                 ViewBag.VoteCount = user.Votes;
                 if (i > 0)
                     user.RefreshDate = DateTime.Now;
@@ -45,8 +44,8 @@ namespace TestSolutionSmartHead.Controllers
 
                 if (HttpContext.Request.Cookies["voteCount"] != null)
                 {
-                    daysWithoutRefresh = DateTime.Now.Day - DateTime.Parse(HttpContext.Request.Cookies["refreshDate"].Value).Day;
-                    int i = daysWithoutRefresh / 3;
+                    timeSpan = DateTime.Now - DateTime.Parse(HttpContext.Request.Cookies["refreshDate"].Value);
+                    int i = timeSpan.Days / 3;
                     if (i > 0)
                         HttpContext.Response.Cookies["refreshDate"].Value = DateTime.Now.ToString();
                     int votes = i + byte.Parse(HttpContext.Request.Cookies["voteCount"].Value);
