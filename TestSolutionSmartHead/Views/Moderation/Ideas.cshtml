@@ -4,9 +4,6 @@
     ViewBag.Title = "Ideas";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -39,11 +36,33 @@
             @Html.DisplayFor(modelItem => item.Text)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            <button id="Block-@item.Id" type="button" onclick="blockIdea(@item.Id)">
+                @if(item.Blocked)
+                {
+                    <b>Unblock Idea</b>
+                }
+                else
+                {
+                    <b>Block Idea</b>
+                }
+            </button>
         </td>
     </tr>
 }
 
 </table>
+
+<script type="text/javascript" language="javascript">
+    function blockIdea(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/Moderation/Ideas?id=' + id,
+            success: function (resp) {
+                document.location.href = "/Moderation/Ideas";
+            },
+            error: function (resp) {
+                document.location.href = "/Moderation/Ideas";
+            }
+        });
+    }
+</script>

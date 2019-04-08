@@ -70,6 +70,7 @@ namespace TestSolutionSmartHead.Controllers
         {
             User user = db.Users.FirstOrDefault(u => u.Name == User.Identity.Name);
             idea.User = user;
+            idea.Blocked = false;
             db.Ideas.Add(idea);
             db.SaveChanges();
 

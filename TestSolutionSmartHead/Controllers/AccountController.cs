@@ -33,8 +33,13 @@ namespace TestSolutionSmartHead.Controllers
                 }
                 else
                 {
-                    FormsAuthentication.SetAuthCookie(model.Name, true);
-                    return appUser.Role == UserType.User ? RedirectToAction("Index", "Home") : RedirectToAction("Index", "Home");
+                    if (!appUser.Blocked)
+                    {
+                        FormsAuthentication.SetAuthCookie(model.Name, true);
+                        return appUser.Role == UserType.User ? RedirectToAction("Index", "Home") : RedirectToAction("Panel", "Moderation");
+                    }
+                    else
+                        ModelState.AddModelError("", "User blocked");
                 }
             }
             return View(model);
@@ -57,7 +62,7 @@ namespace TestSolutionSmartHead.Controllers
                 else
                 {
                     user = new User(model.Name, model.Password);
-                    user.Role = UserType.Admin;
+                    user.Role = UserType.User;
                     user.Votes = 10;
                     db.Users.Add(user);
                     db.SaveChanges();

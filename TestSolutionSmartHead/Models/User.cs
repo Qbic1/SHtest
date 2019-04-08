@@ -22,6 +22,7 @@ namespace TestSolutionSmartHead.Models
         public UserType Role { get; set; }
         public virtual ICollection<Idea> Ideas { get; set; }
         public bool IsActive { get; set; }
+        public bool Blocked { get; set; }
         /// <summary>
         /// Хранит id идей за который пользователь голосовал
         /// </summary>
@@ -33,6 +34,7 @@ namespace TestSolutionSmartHead.Models
             this.Name = name;
             this.Password = global::BCrypt.Net.BCrypt.HashPassword(password, global::BCrypt.Net.BCrypt.GenerateSalt());
             this.Votes = 10;
+            this.Blocked = false;
             Ideas = new List<Idea>();
         }
 

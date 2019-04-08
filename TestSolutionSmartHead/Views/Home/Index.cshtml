@@ -15,15 +15,18 @@
     {
         foreach (var m in Model)
         {
-            <div id="@m.Id" class="idea" style="display:flex !important">
-                <p>User: @m.User.Name</p><p>Idea: @m.Text</p>
-                <p>Pos:</p><p id="Pos-@m.Id">@m.Positive</p><p>Neg:</p><p id="Neg-@m.Id">@m.Negative</p>
-                @if (!ViewBag.VoteList.Contains("/" + @m.Id + "/") && ViewBag.VoteCount > 0)
-                {
-                    <button id="Positive-@m.Id" type="button" onclick="addVote(@m.Id,1)">Positive</button>
-                    <button id="Negative-@m.Id" type="button" onclick="addVote(@m.Id,0)">Negative</button>
-                }
-            </div>
+            if (!m.Blocked)
+            {
+                <div id="@m.Id" class="idea" style="display:flex !important">
+                    <p>User: @m.User.Name</p><p>Idea: @m.Text</p>
+                    <p>Pos:</p><p id="Pos-@m.Id">@m.Positive</p><p>Neg:</p><p id="Neg-@m.Id">@m.Negative</p>
+                    @if (!ViewBag.VoteList.Contains("/" + @m.Id + "/") && ViewBag.VoteCount > 0)
+                    {
+                        <button id="Positive-@m.Id" type="button" onclick="addVote(@m.Id,1)">Positive</button>
+                        <button id="Negative-@m.Id" type="button" onclick="addVote(@m.Id,0)">Negative</button>
+                    }
+                </div>
+            }
         }
     }
 </div>

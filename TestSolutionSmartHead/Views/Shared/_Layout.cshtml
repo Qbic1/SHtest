@@ -20,9 +20,12 @@
             }
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav ml-auto">
-                    <li>@Html.ActionLink("Вход", "Login", "Account")</li>
-                    <li>@Html.ActionLink("Регистрация", "Register", "Account")</li>
-                    @if (!string.IsNullOrWhiteSpace(ViewBag.UserName))
+                    @if (string.IsNullOrWhiteSpace(ViewBag.UserName))
+                    {
+                        <li>@Html.ActionLink("Вход", "Login", "Account")</li>
+                        <li>@Html.ActionLink("Регистрация", "Register", "Account")</li>
+                    }
+                    else
                     {
                         <li>@Html.ActionLink("Выход", "Logoff", "Account")</li>
                         if ((int)ViewBag.UserRole == 1)

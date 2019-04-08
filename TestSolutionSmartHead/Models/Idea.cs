@@ -13,5 +13,6 @@ namespace TestSolutionSmartHead.Models
         public int Negative { get; set; }
         public string Text { get; set; }
         public int? UserId { get; set; }
+        public bool Blocked { get; set; }
     }
 }
